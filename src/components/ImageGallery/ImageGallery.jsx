@@ -18,8 +18,19 @@ class ImageGallery extends Component {
     totalHits: null,
   };
 
+  // static propTypes = {
+  //   searchQuery: PropTypes.string.isRequired,
+  // };
   static propTypes = {
     searchQuery: PropTypes.string.isRequired,
+    images: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        webformatURL: PropTypes.string.isRequired,
+        largeImageURL: PropTypes.string.isRequired,
+        tags: PropTypes.string.isRequired,
+      })
+    ),
   };
 
   componentDidUpdate(prevProps, prevState) {
