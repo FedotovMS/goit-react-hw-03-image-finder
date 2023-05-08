@@ -1,53 +1,64 @@
 import { Component } from 'react';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
-// import Loader from 'components/Loader/Loader';
+import Loader from 'components/Loader/Loader';
 import css from './ImageGallery.module.css';
+import fetchImages from '../../services/search-api';
+import Modal from '../Modal/Modal';
 
 class ImageGallery extends Component {
   state = {
     query: null,
     loading: false,
     error: null,
+    showModal: false,
+    modalImage: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.searchQuery !== this.props.searchQuery) {
-      const API_KEY = '34617221-40fb3a679d52688cd42ce20c8';
-
       this.setState({ loading: true, query: null });
 
-      fetch(
-        `https://pixabay.com/api/?q=cat&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12&q=${this.props.searchQuery}`
-      )
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          return Promise.reject(
-            new Error(`No images according to ${this.props.query} request`)
-          );
-        })
+      fetchImages(this.props.searchQuery)
         .then(data => this.setState({ query: data.hits }))
-        .catch(error => this.setState(error))
-        .finally(this.setState({ loading: false }));
+        .catch(error => this.setState({ error }))
+        .finally(() => this.setState({ loading: false }));
     }
   }
 
+  toggleModal = imageUrl => {
+    this.setState(({ showModal, modalImage }) => ({
+      showModal: !showModal,
+      modalImage: imageUrl || modalImage,
+    }));
+  };
+
   render() {
+    const { error, loading, query, showModal, modalImage } = this.state;
     return (
       <div>
-        {this.state.query && (
-          <ul className={css.ImageGallery}>
-            {this.state.query.map(item => (
-              <ImageGalleryItem
-                key={item.id}
-                image={item.webformatURL}
-                bigImage={item.largeImageURL}
-              />
-            ))}
-            {this.state.loading && <h2>Loading...</h2>}
-            {this.state.error && <h1>{this.state.error.message}</h1>}
-          </ul>
+        {!loading && query && query.length === 0 && (
+          <h2>No data found for the query "{this.props.searchQuery}".</h2>
+        )}
+        {loading && <Loader />}
+        {error && <h1>{error.message}</h1>}
+        {query && (
+          <>
+            <ul className={css.ImageGallery}>
+              {query.map(item => (
+                <ImageGalleryItem
+                  key={item.id}
+                  id={item.id}
+                  image={item.webformatURL}
+                  bigImage={item.largeImageURL}
+                  tags={item.tags}
+                  onClick={this.toggleModal}
+                />
+              ))}
+            </ul>
+            {showModal && (
+              <Modal onClose={this.toggleModal} largeImageURL={modalImage} />
+            )}
+          </>
         )}
       </div>
     );

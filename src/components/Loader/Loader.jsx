@@ -1,10 +1,11 @@
 import { Component } from 'react';
 import { FidgetSpinner } from 'react-loader-spinner';
+import css from './Loader.module.css';
 
 class Loader extends Component {
   render() {
     return (
-      <div>
+      <div className={css.loader}>
         <FidgetSpinner
           visible={true}
           height="80"

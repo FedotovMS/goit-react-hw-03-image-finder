@@ -5,22 +5,32 @@ import { Component } from 'react';
 import Searchbar from './Searchbar/Searchbar';
 // import Loader from './Loader/Loader';
 import ImageGallery from './ImageGallery/ImageGallery';
+// import Modal from './Modal/Modal';
 
 // import ImageGallery from './ImageGallery/ImageGallery';
 
 class App extends Component {
   state = {
     searchQuery: '',
+    showModal: false,
   };
+
   handleFormSubmit = searchQuery => {
     this.setState({ searchQuery });
+  };
+
+  togleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
   };
   render() {
     return (
       <>
+        {/* {this.state.showModal && <Modal />} */}
         <Searchbar onSubmit={this.handleFormSubmit} />
         <ToastContainer autoClose={3000} />
-        {/* <Loader /> */}
+
         <ImageGallery searchQuery={this.state.searchQuery} />
       </>
     );
