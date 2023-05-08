@@ -19,11 +19,6 @@ class App extends Component {
     this.setState({ searchQuery });
   };
 
-  togleModal = () => {
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
   render() {
     return (
       <>
