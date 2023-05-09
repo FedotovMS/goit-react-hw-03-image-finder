@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import css from './Searchbar.module.css';
 // import ImageGallery from 'components/ImageGallery/ImageGallery';
@@ -10,16 +11,9 @@ class Searchbar extends Component {
     serchQuery: '',
   };
 
-  // async componentDidMount() {
-  //   this.setState({ loading: true });
-  //   fetch('https://pixabay.com/api/?key=34617221-40fb3a679d52688cd42ce20c8?q=cat&page=1&key=your_key&image_type=photo&orientation=horizontal&per_page=12')
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       this.setState({ pics: data.hits });
-  //     })
-  //     .finally(() => this.setState({ loading: false }))
-  //     .catch(error => console.log(error));
-  // }
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
 
   handleInputChange = event => {
     this.setState({ serchQuery: event.currentTarget.value.toLowerCase() });

@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import css from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ id, image, bigImage, tags, onClick }) => {
+const ImageGalleryItem = ({ image, bigImage, tags, onClick }) => {
   return (
-    <li className={css.imageGalleryItem} key={id}>
+    <li className={css.imageGalleryItem}>
       <img
         className={css.ImageGalleryItemImage}
         src={image}
