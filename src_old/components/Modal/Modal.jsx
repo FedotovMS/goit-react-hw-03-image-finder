@@ -1,11 +1,11 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 
 class Modal extends Component {
   static propTypes = {
     largeImageURL: PropTypes.string.isRequired,
-    alt: PropTypes.string.isRequired,
+    tags: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
   };
   componentDidMount() {
